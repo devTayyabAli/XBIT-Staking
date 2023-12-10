@@ -1,0 +1,303 @@
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected{
+    /* filter: brightness(1.6); */
+    /* border: 1px solid white; */
+    border-radius: 20px;
+    /* text-shadow: 0px 0px 10px rgba(224, 165, 115, 0.66), 0px 0px 10px #C85541, 0px 4px 15px #000000; */
+    color: #fff !important;
+    font-size: 16px ;
+    /* font-family: serif; */
+    text-transform: uppercase;
+    /* margin-bottom: ; */
+
+}
+
+.tryhere {
+    /* border: 2px solid red !important; */
+    display: flex !important;
+    justify-content: center !important;
+    margin: 1rem 0;
+}
+.css-heg063-MuiTabs-flexContainer{
+    justify-content: center !important;
+}
+
+.input_stake_amnt {
+    border: 1px solid white ;
+    border-radius: 15px;
+
+}
+
+.input_stake_amnt {
+    display: flex;
+
+}
+
+.input_amount {
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: 700;
+    background-color: transparent !important;
+    width: 85%;
+    padding: 10px;
+}
+
+ .ref_add {
+    padding: 10px;
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: 700;
+    background-color: transparent !important;
+    border: 1px solid white;
+    width: 100%;
+    border-radius: 15px;
+
+ }
+
+.stke_max{
+    background-color: #92daec;
+    border: none;
+    outline: none;
+    padding: 10px 25px;
+    color: white;
+    font-weight: 700;
+    border-radius: 0px 15px 15px 0px ;
+
+}
+
+.dash {
+    color: #92daec;
+    font-size: 26px;
+    font-weight: 600;
+
+}
+
+.about_user h6 {
+font-weight: 500;
+font-size: 19px;
+color: white;
+text-transform: capitalize;
+}
+
+.about_user h5{
+    font-size: 16px;
+    font-weight: 500;
+    color: #92daec;
+}
+
+.abt_para {
+    font-size: 12px;
+}
+.css-k008qs{
+    justify-content: center !important;
+}
+.app_stk_btn{
+    color: black;
+    font-weight: 600;
+    background-color: #92daec;
+    outline: none;
+    border-radius: 20px;
+    border: none;
+    padding: 10px 25px ;
+    text-transform: capitalize;
+    width: 100%;
+    text-align: center;
+    margin: 1rem 0;
+    transition: all 0.5s;
+}
+
+.app_stk_btn:hover{
+    border: 1px solid #92daec;
+    background-color: transparent ;
+    color: white;
+}
+
+
+.stke_planes {
+    border: 1px solid white;
+    padding: 2px 5px;
+    border-radius: 10px;
+}
+
+.days_plan {
+    width: 100%;
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: 600;
+    background-color: transparent !important;
+    padding: 10px ;
+}
+
+
+.unstake_box{
+    padding:5px 10px;
+    border-radius: 15px;
+    border: 1px solid white;
+
+}
+
+.about_plan {
+    border-top: 1px solid white ;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    padding-top:10px ;
+}
+.tax{
+    color: #92daec;
+}
+
+.unstke_amt {
+    padding: 10px;
+    width: 85%;
+    background-color: transparent !important;
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: 700;
+}
+
+
+
+
+
+
+
+
+
+.css-1q2h7u5.Mui-selected{
+    /* filter: brightness(1.6); */
+    /* text-shadow: 0px 0px 10px rgba(224, 165, 115, 0.66), 0px 0px 10px #C85541, 0px 4px 15px #000000; */
+    color: #fff !important;
+    font-size: 22px ;
+    /* font-family: serif; */
+    text-transform: uppercase;
+}
+
+[type=button]:not(:disabled){
+color: #878582;
+font-size: 16px ;
+
+
+}
+
+
+
+.main_div_stking{
+    margin-top: 1rem;
+}
+
+
+
+
+
+.css-ttwr4n {
+    display: none !important;
+}
+
+
+.css-19kzrtu {
+    padding: 0px !important;
+}
+
+.css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
+    background-color: transparent !important;
+    /* border: 2px solid red !important; */
+}
+
+.css-1aquho2-MuiTabs-indicator{
+    display: none !important;
+}
+
+
+@media only screen and (max-width:600px){
+    .stkk_inpu {
+        padding: 10px 15px !important;
+    }
+
+    .left_int_side {
+        padding: 10px 15px !important;
+
+    }
+    .MuiTabs-flexContainer{
+        width: 100%;
+        position:static !important;
+        margin: 1rem 0px;
+    }
+    .stke_planes{
+        padding: 2px 5px !important;
+    }
+
+    .about_plan {
+        padding-top: 5px !important;
+    }
+    .days_plan{
+        padding: 2px 5px ;
+    }
+    .about_user h6{
+        font-size: 16px !important;
+    }
+    .about_user h5{
+        font-size: 16px !important;
+    }
+
+}
+
+.User_Dashboard_main{
+    box-shadow: 0px 0px 10px 0px rgba(77,72,72,0.75);
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(77,72,72,0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(77,72,72,0.75);
+    padding: 15px;
+    margin-top: 2rem;
+
+}
+
+
+.inputMax, .stake_main .stake_card .stake_card_body .inputMax {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    background: transparent;
+    border: 1px solid rgba(35,106,10,.4);
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 0 10px;
+    position: relative;
+    border: 1px solid #fff;
+
+}
+
+.inputMax input, .stake_main .stake_card .stake_card_body .inputMax input {
+    width: 99%;
+    font-weight: 600;
+    font-size: 20px;
+    /* color: linear-gradient(294.72deg,#e0b908 9.05%,#fc9004 79.28%); */
+    border: none;
+    outline: none;
+    padding-right: 55px;
+    background-color: transparent;
+}
+
+ .inputMax button {
+    padding: 4px 10px;
+    width: 60px;
+    position: absolute;
+    right: 10px;
+}
+
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+.btn-common {
+    padding: 10px 28px;
+    color: #fff!important;
+    text-decoration: none;
+    background: #92daec;
+    font-size: 14px;
+    width: 150px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}

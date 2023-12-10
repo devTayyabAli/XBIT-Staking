@@ -1,0 +1,45 @@
+body{
+    background-color: #000;
+}
+
+.main_logo{
+    width: 120px;
+}
+
+.main_logo img {
+    width: 100%;
+}
+
+.main_header_links{
+    color: white !important;
+    font-size: 20px;
+    margin: 0px 10px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.connect_wallet_btn {
+    background-color: transparent;
+    padding: 10px 25px;
+    border: 1px solid white ;
+    font-size: 18px;
+    font-weight: 600;
+    outline: none;
+    border-radius: 20px;
+    color: white ;
+}
+
+.main_navbar {
+    padding: 1rem 10px;
+}
+
+
+@media only screen and (max-width:600px){
+    .main_header_links{
+        text-align: center;
+    }
+
+    .landing_heading  {
+        font-size: 22px;
+    }
+}
