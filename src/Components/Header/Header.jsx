@@ -7,11 +7,11 @@ import "./Header.css"
 import logo from "../Assets/logo.png"
 import {AiOutlineMenu} from 'react-icons/ai'
 import {RxCross2 } from 'react-icons/rx'
-
+import { useWeb3Modal } from '@web3modal/wagmi/react'
 
 export default function Header() {
     const [show, setShow] = useState(false);
-
+    const { open } = useWeb3Modal()
     const handleClose = () => setShow(false);
   return (
     <div>
@@ -23,10 +23,10 @@ export default function Header() {
         {/* <Navbar.Toggle aria-controls="responsive-navbar-nav" /> */}
         <span className='d-block d-lg-none' onClick={()=>setShow(!show)} >
         {
-        
+
           show ? <><RxCross2 className='text-white fs-1' /> </>:<><AiOutlineMenu className='text-white fs-1'/></>
         }
-        
+
 
         </span>
         <Navbar.Collapse id="responsive-navbar-nav"  className={show ? "show":""}>
@@ -35,11 +35,12 @@ export default function Header() {
             <Nav.Link className='main_header_links' href="#pricing">Referral</Nav.Link>
             <Nav.Link className='main_header_links' href="#pricing">Migrate</Nav.Link>
             <Nav.Link className='main_header_links' href="#pricing">Buy BCASH</Nav.Link>
-           
+
           </Nav>
           <Nav>
-          <div className='d-flex justify-content-center'>
-            <button className='connect_wallet_btn'>Connect wallet</button>
+          <div className='d-flex justify-content-center connect_wallet_btn'>
+            {/* <button onClick={() => open()} className='connect_wallet_btn'>Connect wallet</button> */}
+            <w3m-button  />
           </div>
           </Nav>
         </Navbar.Collapse>

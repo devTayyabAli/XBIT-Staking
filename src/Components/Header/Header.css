@@ -18,7 +18,7 @@ body{
     text-transform: capitalize;
 }
 
-.connect_wallet_btn {
+/* .connect_wallet_btn {
     background-color: transparent;
     padding: 10px 25px;
     border: 1px solid white ;
@@ -27,8 +27,11 @@ body{
     outline: none;
     border-radius: 20px;
     color: white ;
-}
+} */
 
+.connect_wallet_btn #shadow-root     button{
+    background-color: transparent !important;
+}
 .main_navbar {
     padding: 1rem 10px;
 }

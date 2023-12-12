@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import * as React from 'react';
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -7,6 +7,23 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import "./TABS_stake.css";
 import Stake_History from "../Stake_History/Stake_History";
+import { useAccount } from "wagmi";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
+import {
+  prepareWriteContract,
+  waitForTransaction,
+  writeContract,
+} from "@wagmi/core";
+import toast from "react-hot-toast";
+import {
+  XBIT_Pool_Token_Address,
+  XBIT_pool_Token_Abi,
+  XBIT_Pool_Staking_Address,
+  XBIT_Pool_Staking_ABI,
+} from "../../utilies/constant";
+import Web3 from "web3";
+import Staking from "../Staking/Staking";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,9 +61,117 @@ function a11yProps(index) {
 export default function TABS_stake() {
   const [value, setValue] = React.useState(0);
 
+  const { address } = useAccount();
+  const [selectDays, setselectDays] = useState(1);
+  const [Active, setActive] = useState(0);
+  const [getValue, setgetValue] = useState(null);
+  const [spinner, setspinner] = useState(false);
+  const [balance, setbalance] = useState(0);
+  const [referal, setReferal] = useState("");
+  const [copied, setCopied] = useState(false);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const webSupply = new Web3("wss://arbitrum-goerli.publicnode.com");
+
+  const staking_Amount = async () => {
+    try {
+      if (selectDays == 1) {
+        toast.error("Please Select Days");
+        setspinner(false);
+      } else {
+        if (getValue == null) {
+          toast.error("Please Enter Amount First!");
+          setspinner(false);
+        } else {
+          // if (getValue < 1) {
+          //   toast.error("Minimum Staking Amount 1!");
+          //   setspinner(false);
+          // } else {
+          if (!address) {
+            toast.error("Please Connect Metamaske First!");
+          } else {
+            setspinner(true);
+
+            let stakingValue = getValue * 1000000000000000000;
+            let checkbalance = balance * 1000000000000000000;
+            if (Number(checkbalance) >= Number(stakingValue)) {
+              const { request } = await prepareWriteContract({
+                address: XBIT_Pool_Token_Address,
+                abi: XBIT_pool_Token_Abi,
+                functionName: "approve",
+                args: [XBIT_Pool_Staking_Address, stakingValue.toString()],
+                account: address,
+              });
+              const { hash } = await writeContract(request);
+              const data = await waitForTransaction({
+                hash,
+              });
+
+              setTimeout(async () => {
+                toast.success("Approve Confirmed");
+                let UserID;
+                if (window.location.href.includes("ref")) {
+                  UserID = window.location.href.split("=");
+                  UserID = UserID[UserID.length - 1];
+                  console.log("refferal", UserID);
+                  // setRefAddressfun(UserID);
+                } else {
+                  UserID = "0x0000000000000000000000000000000000000000";
+                }
+                console.log("UserID", stakingValue, selectDays, UserID);
+                const { request } = await prepareWriteContract({
+                  address: XBIT_Pool_Staking_Address,
+                  abi: XBIT_Pool_Staking_ABI,
+                  functionName: "farm",
+                  args: [stakingValue.toString(), selectDays, UserID],
+                  account: address,
+                });
+                const { hash } = await writeContract(request);
+                const data = await waitForTransaction({
+                  hash,
+                });
+                toast.success("AKS Token Staked Successfull.");
+                setspinner(false);
+              }, 1000);
+            } else {
+              toast.error("Insufficient Balance");
+              setspinner(false);
+            }
+          }
+          // }
+        }
+      }
+    } catch (e) {
+      console.log("Error", e);
+      setspinner(false);
+    }
+  };
+
+  const checkBalance = async () => {
+    let tokenContractOf = new webSupply.eth.Contract(
+      XBIT_pool_Token_Abi,
+      XBIT_Pool_Token_Address
+    );
+    if (address) {
+      let blanceOf = await tokenContractOf.methods.balanceOf(address).call();
+      blanceOf = blanceOf / 1000000000000000000;
+      blanceOf = blanceOf.toString();
+      blanceOf = blanceOf.slice(0, 15);
+      setbalance(blanceOf);
+    }
+  };
+
+  useEffect(() => {
+    checkBalance();
+    if (address) {
+      setReferal(`${window.location.origin}/?ref=${address}`);
+    } else {
+      setReferal("connect wallet");
+    }
+  }, [address]);
+
   return (
     <div className="tryhere">
       <Box sx={{ width: "100%" }}>
@@ -62,92 +187,12 @@ export default function TABS_stake() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <div className="take_content mt-3">
-            <div className="row justify-content-center my-4">
-              <div className="col-md-3 col-4 p-1">
-                <div className="stke_planes">
-                  <button className="days_plan">90 days</button>
-                  <div className="about_plan">
-                    <p className="mb-0">10% APY</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 col-4 p-1">
-                <div className="stke_planes">
-                  <button className="days_plan">60 days</button>
-                  <div className="about_plan">
-                    <p className="mb-0">10% APY</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-3 col-4 p-1">
-                <div className="stke_planes">
-                  <button className="days_plan">30 days</button>
-                  <div className="about_plan">
-                    <p className="mb-0">10% APY</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-12 col-lg-12 mb-4">
-              <div className="text-white d-flex justify-content-between mb-1">
-                  <p className="mb-0 abt_para">Stake amount</p>
-                  <p className="mb-0 abt_para">Available Amount 0 BCASH</p>
-                </div>
-                <div className="inputMax">
-                  <input type="number" placeholder={0} defaultValue="" />
-                  <button type="button" className="btn-common">
-                    {" "}
-                    MAX{" "}
-                  </button>
-                </div>
-                <p className="tax mt-1">2% Tax on Deposits</p>
-              </div>
-
-              {/* <div className="col-md-6">
-                <div className="text-white d-flex justify-content-between">
-                  <p className="mb-0 abt_para">Stake amount</p>
-                  <p className="mb-0 abt_para">Available Amount 0 BCASH</p>
-                </div>
-                <div className="input_stake_amnt">
-                  <input
-                    type="text"
-                    className="input_amount"
-                    placeholder="0"
-                    name=""
-                    id=""
-                  />
-                  <button className="stke_max">MAX</button>
-                </div>
-                <p className="tax">2% Tax on Deposits</p>
-              </div> */}
-
-            </div>
-            <div className="row justify-content-center">
-              <div className="col-md-8">
-                <button className="app_stk_btn">approve & stake</button>
-              </div>
-            </div>
-            <div className="User_Dashboard_main">
-              <h4 className="dash mt-3 mt-lg-0">Refer and earn 12% in XBIT</h4>
-              <div className="col-md-12">
-                <p className="mb-0 text-white abt_para">
-                  Enter Your Refferal Address
-                </p>
-                <div className="inputMax">
-                  <input type="number" placeholder={0} defaultValue="" />
-                  <button type="button" className="btn-common">
-                    {" "}
-                    Copy{" "}
-                  </button>
-                </div>
-                {/* <input type="text" className="ref_add" name="" id="" /> */}
-              </div>
-
-            </div>
-          </div>
+          {/* <Staking
+            XBIT_Pool_Token_Address={XBIT_Pool_Token_Address}
+            XBIT_Pool_Staking_Address={XBIT_Pool_Staking_Address}
+            XBIT_pool_Token_Abi={XBIT_pool_Token_Abi}
+            XBIT_Pool_Staking_ABI={XBIT_Pool_Staking_ABI}
+          /> */}
         </CustomTabPanel>
         {/* <CustomTabPanel value={value} index={1}>
           <div className="unstake_content">

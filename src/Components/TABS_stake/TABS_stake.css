@@ -273,6 +273,7 @@ font-size: 16px ;
     width: 99%;
     font-weight: 600;
     font-size: 20px;
+    color: #fff;
     /* color: linear-gradient(294.72deg,#e0b908 9.05%,#fc9004 79.28%); */
     border: none;
     outline: none;
@@ -300,4 +301,7 @@ font-size: 16px ;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}
+.refferal_input{
+    font-size: 16px !important;
 }

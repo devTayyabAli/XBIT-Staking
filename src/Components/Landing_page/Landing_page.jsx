@@ -12,18 +12,7 @@ export default function Landing_page() {
           Join BCASH STAKING FARM & Earn a guaranteed 720% APY
         </h1>
 
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <div className="landing_content_box">
-              <div className="landing_head">
-                <Xbit_usdt />
-
-              </div>
-            </div>
-          </div>
-        </div>
-        <Stake_History/>
-
+        <Xbit_usdt />
       </div>
     </div>
   );

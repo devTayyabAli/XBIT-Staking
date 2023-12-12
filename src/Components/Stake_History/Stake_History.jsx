@@ -1,7 +1,108 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Stake.css";
+import toast from "react-hot-toast";
+import Web3 from "web3";
+import { useAccount } from "wagmi";
+import {
+  prepareWriteContract,
+  waitForTransaction,
+  writeContract,
+} from "@wagmi/core";
+import moment from "moment";
+import Countdown from "react-countdown";
+import { Button } from "react-bootstrap";
 
-export default function Stake_History() {
+export default function Stake_History({
+  XBIT_Pool_Staking_ABI,
+  XBIT_Pool_Staking_Address,
+}) {
+  const { address } = useAccount();
+  const [UserInformationStak, setUserInformationStak] = useState();
+  const [spinner, setspinner] = useState(false);
+  const webSupply = new Web3("wss://arbitrum-goerli.publicnode.com");
+  const checkBalance = async () => {
+    let stakingContractOf;
+
+    stakingContractOf = new webSupply.eth.Contract(
+      XBIT_Pool_Staking_ABI,
+      XBIT_Pool_Staking_Address
+    );
+    if (address) {
+      let UserInformation = await stakingContractOf.methods
+        .UserInformation(address)
+        .call();
+        console.log("UserInformation",UserInformation);
+      let array1 = UserInformation[0];
+      let array2 = UserInformation[1];
+      let array3 = UserInformation[2];
+      let myArray = [];
+      let currentTime = Math.floor(new Date().getTime() / 1000.0);
+      for (let i = 0; i < array1.length; i++) {
+        let currentTimestamp = array3[i];
+        let date = moment(Number(array3[i]) * 1000).format("DD-MM-YYYY");
+        let obj = {
+          address: address,
+          amount: array1[i] / 1000000000,
+
+          unLoackTime: Number(currentTimestamp) + Number(60) * array2[i],
+          LockTime: date,
+        };
+        myArray = [...myArray, obj];
+      }
+
+      setUserInformationStak(myArray);
+    }
+  };
+  console.log("UserInformationStak",UserInformationStak);
+
+  useEffect(() => {
+    checkBalance();
+  }, []);
+
+  const Completionist = () => {
+    return (
+      <>
+        <div className="text_days fs-5 ">Unstaked Time Reached!</div>
+      </>
+    );
+  };
+
+  // Renderer callback with condition
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    if (completed) {
+      return <Completionist />;
+    } else {
+      return (
+        <div className="text_days fs-5 ">
+          {/* {days} D {hours} H {minutes} M {seconds} S */}
+          {days}d : {hours}h : {minutes}m : {seconds}s
+        </div>
+      );
+    }
+  };
+
+  const unstake = async (index) => {
+    try {
+      setspinner(true);
+      const { request } = await prepareWriteContract({
+        address: XBIT_Pool_Staking_Address,
+        abi: XBIT_Pool_Staking_ABI,
+        functionName: "harvest",
+        args: [[index]],
+        account: address,
+      });
+      const { hash } = await writeContract(request);
+      const data = await waitForTransaction({
+        hash,
+      });
+      toast.success("Transaction Confirmed");
+      setspinner(false);
+      checkBalance();
+    } catch (e) {
+      console.log("Error while calling Unstaking function", e);
+      setspinner(false);
+    }
+  };
   return (
     <div>
       <div className="container mx-auto lg:px-10  py-5">
@@ -18,7 +119,7 @@ export default function Stake_History() {
                 className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-4hkj1c refershBTB"
                 tabIndex={0}
                 type="button"
-                // onClick={() => Stake_History()}
+                onClick={() => checkBalance()}
               >
                 <span className="me-2 text-white">Refresh</span>
                 <span
@@ -40,6 +141,7 @@ export default function Stake_History() {
                 </span>
               </button>
             </div>
+
             <div
               className="MuiTableContainer-root css-48ybtg"
               border="none"
@@ -84,17 +186,93 @@ export default function Stake_History() {
                   </tr>
                 </thead>
                 <tbody className="MuiTableBody-root css-1xnox0e">
-                  <td
-                    className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg"
-                    colSpan={5}
-                    style={{ border: "none" }}
-                  >
-                    <div className="MuiBox-root css-ehd0rl">
-                      <p className="MuiTypography-root MuiTypography-body1 css-o7q7an">
-                        You have no staking data
-                      </p>
-                    </div>
-                  </td>{" "}
+                  {UserInformationStak?.length == 0  ? (
+                    <>
+                      <td
+                        className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg"
+                        colSpan={5}
+                        style={{ border: "none" }}
+                      >
+                        <div className="MuiBox-root css-ehd0rl">
+                          <p className="MuiTypography-root MuiTypography-body1 css-o7q7an">
+                            You have no staking data
+                          </p>
+                        </div>
+                      </td>{" "}
+                    </>
+                  ) : (
+                    <>
+                      {UserInformationStak?.map((items, index) => {
+                        let current_Time = Math.floor(
+                          new Date().getTime() / 1000.0
+                        );
+
+                        return (
+                          <>
+                            {items.unstaked == true ||
+                            items.withdrawan == true ? (
+                              <></>
+                            ) : (
+                              <>
+                                <tr className="MuiTableRow-root css-1gqug66">
+                                  <td
+                                    className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg text-white text-center"
+                                    scope="col"
+                                  >
+                                    {index+1}
+                                  </td>
+                                  <td
+                                    className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg text-white text-center"
+                                    scope="col"
+                                  >
+                                    {items.amount}
+                                  </td>
+                                  <td
+                                    className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg text-white text-center"
+                                    scope="col"
+                                  >
+                                    <Countdown
+                                      date={
+                                        Date.now() +
+                                        (parseInt(items.unLoackTime) * 1000 -
+                                          Date.now())
+                                      }
+                                      renderer={renderer}
+                                    />
+                                  </td>
+                                  <td
+                                    className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg text-white text-center"
+                                    scope="col"
+                                  >
+                                    <button
+                                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-4hkj1c"
+                                      tabIndex={0}
+                                      type="button"
+                                      onClick={() =>
+                                        current_Time >= items.unLoackTime
+                                          ? unstake(index)
+                                          : toast.error(
+                                              "Unstake time not reached!"
+                                            )
+                                      }
+                                    >
+                                      {/* {
+                                        spinner ?
+                                        "Loading ...":"Unstake"
+                                      } */}
+                                      Unstake
+
+                                      <span className="MuiTouchRipple-root css-w0pj6f" />
+                                    </button>
+                                  </td>{" "}
+                                </tr>{" "}
+                              </>
+                            )}
+                          </>
+                        );
+                      })}
+                    </>
+                  )}
                 </tbody>
               </table>
             </div>
