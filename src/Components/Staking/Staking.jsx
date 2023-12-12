@@ -25,6 +25,9 @@ export default function Staking({
   const [balance, setbalance] = useState(0);
   const [referal, setReferal] = useState("");
   const [copied, setCopied] = useState(false);
+  const [totalStaked_Value, settotalStaked_Value] = useState(0)
+  const [Users_Value, setUsers_Value] = useState(0)
+  const [UserReferalReward, setUserReferalReward] = useState(0)
 
   const webSupply = new Web3("wss://arbitrum-goerli.publicnode.com");
 
@@ -116,7 +119,34 @@ export default function Staking({
     }
   };
 
+
+  const ReadFuc=async()=>{
+    try {
+      let tokenContractOf = new webSupply.eth.Contract(
+        XBIT_Pool_Staking_ABI,
+        XBIT_Pool_Staking_Address
+      );
+      if (address) {
+        let UserReferalReward = await tokenContractOf.methods.UserReferalReward(address).call();
+        UserReferalReward=UserReferalReward/1000000000000000000
+        setUserReferalReward(UserReferalReward)
+        let Users = await tokenContractOf.methods.Users(address).call();
+        Users= Users.DepositeToken
+        console.log("UserReferalReward",Users);
+      setUsers_Value(Users/decimals)
+      }
+      let totalStaked = await tokenContractOf.methods.totalStaked().call();
+      settotalStaked_Value(totalStaked/decimals)
+
+
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
+    ReadFuc()
     checkBalance();
     if (address) {
       setReferal(`${window.location.origin}/?ref=${address}`);
@@ -131,19 +161,19 @@ export default function Staking({
         <div className="col-4 p-1 mt-3 mt-md-0">
           <div className="about_box">
             <h3>Total value locked </h3>
-            <p>0BCASH</p>
+            <p>{totalStaked_Value}</p>
           </div>
         </div>
         <div className="col-4 p-1 mt-3 mt-md-0">
           <div className="about_box">
             <h3>personal total staked </h3>
-            <p>0BCASH</p>
+            <p>{Users_Value}</p>
           </div>
         </div>
         <div className="col-4 p-1 mt-3 mt-md-0">
           <div className="about_box">
             <h3>Refferal reward </h3>
-            <p>0BCASH</p>
+            <p>{UserReferalReward}</p>
           </div>
         </div>
       </div>
