@@ -1,0 +1,76 @@
+body {
+    background-color: #000;
+    /* background-image: url('../Assets/Hero_Bg.png');
+    background-repeat: no-repeat; */
+}
+
+.main_logo {
+    width: 200px;
+    /* border: 1px solid red; */
+}
+
+.main_logo img {
+    width: 100%;
+}
+
+.main_header_links {
+    color: white !important;
+    font-size: 16px;
+    margin: 0px 10px;
+    font-weight: 700;
+    text-transform: capitalize;
+    font-family: 'Lato', sans-serif !important;
+}
+
+.connect_wallet_btn {
+    background-color: #F6F6F6;
+    color: #000 !important;
+    display: inline-block;
+    position: relative;
+    padding: 12px 20px 12px;
+    min-width: 120px;
+    border: 2px solid transparent;
+    min-height: 44px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(136,144,195,0.2), 0 5px 15px 0 rgba(37,44,97,0.15);
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 700;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.main_navbar {
+    padding: 1rem 10px;
+}
+
+
+@media only screen and (max-width:600px) {
+    .main_header_links {
+        text-align: center;
+    }
+
+    .landing_heading {
+        font-size: 22px;
+    }
+    .main_logo {
+        width: 120px;
+        /* border: 1px solid red; */
+    }
+}
+
+@media (min-width:992px) {
+    .nav_outer_btn {
+        display: none !important;
+    }
+}
+@media screen and (max-width:991px) {
+    .btn_Inner{
+        display: none !important;
+    }
+}

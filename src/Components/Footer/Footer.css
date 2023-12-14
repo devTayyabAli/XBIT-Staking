@@ -1,0 +1,24 @@
+.icons_soical{
+    color: white !important;
+    font-size: 28px;
+}
+.main_footer{
+    padding: 20px 10px;
+    border-top: 1px solid #fff;
+
+
+}
+
+
+.footer_text {
+    padding: 20px 15px ;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 20px;
+
+}
+
+.footer_text p {
+    margin-bottom: 0px;
+    color: white ;
+}

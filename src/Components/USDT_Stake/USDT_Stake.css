@@ -1,0 +1,43 @@
+.MAin_usdt_page h4{
+    font-size: 22px ;
+    color: white !important;
+    text-align: center;
+}
+
+.MAin_usdt_page{
+    padding: 5px 15px;
+}
+
+.usdt_pool_ap {
+    display: flex;
+    justify-content: space-around;
+    border-radius: 6px ;
+    border: 1px solid white;
+    align-items: center;
+}
+
+
+.USDT_MAX{
+    /* border: 2px solid red; */
+    outline: none;
+    border: none ;
+    background-color: transparent !important;
+    color: white;
+    font-weight: 700;
+}
+.usdt_tk {
+    padding: 6px 0px ;
+    text-align: center;
+    color: white;
+}
+
+.usdt_in{
+    background: inherit!important;
+    border-bottom: none!important;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-top: none!important;
+    width: 60%;
+    color: white;
+    padding: 10px 15px;
+}
